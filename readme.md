@@ -1,15 +1,19 @@
 # Django Project tsystems
 
+## create environment
+
+    python -m venv .envs/enventenv
+
 ## activate environment
 
     source .envs/eventenv/bin/activate
 
 ## Install project
 
-    pip install pip-tools
-    pip-compile requirements.in
-    pip-compile requirements-dev.in
-    pip-sync requirements.txt requirements-dev.txt
+    (eventenv) pip install pip-tools
+    (eventenv) pip-compile requirements.in
+    (eventenv) pip-compile requirements-dev.in
+    (eventenv) pip-sync requirements.txt requirements-dev.txt
 
 ## pip-compile creates:
 
@@ -18,12 +22,12 @@
 
 ## Create migration files and migrate them (create db table)
 
-    python manage.py makemigrations events
-    python manage.py migrate
+    (eventenv) python manage.py makemigrations events
+    (eventenv) python manage.py migrate
 
 ## Start dev server
 
-    python manage.py runserver
+    (eventenv) python manage.py runserver
 
 
 # a little training project
