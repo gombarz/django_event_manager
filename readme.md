@@ -1,5 +1,9 @@
 # Django Project tsystems
 
+## Pastebin
+
+    https://pastes.io/vrcmvukmjd
+
 ## create environment
 
     python -m venv .envs/enventenv
@@ -29,12 +33,20 @@
 
     (eventenv) python manage.py runserver
 
-## Docs
+# Docs
+
+## Monday
 
     https://docs.djangoproject.com/en/4.2/
     https://github.com/jazzband/pip-tools
     https://miro.medium.com/v2/resize:fit:700/1*aICZBUzrgLgc5GoWuiFHcw.jpeg
     https://github.com/cookiecutter/cookiecutter-django
+    https://django-ninja.rest-framework.com/
+
+## Tuesday
+
+    https://docs.djangoproject.com/en/4.0/ref/models/querysets/#field-lookups
+    https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
 
 
 
