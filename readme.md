@@ -29,6 +29,14 @@
 
     (eventenv) python manage.py runserver
 
+## Docs
+
+    https://docs.djangoproject.com/en/4.2/
+    https://github.com/jazzband/pip-tools
+    https://miro.medium.com/v2/resize:fit:700/1*aICZBUzrgLgc5GoWuiFHcw.jpeg
+    https://github.com/cookiecutter/cookiecutter-django
+
+
 
 # a little training project
 
