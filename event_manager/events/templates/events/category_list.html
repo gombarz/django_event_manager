@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+List of categories
+{% endblock %}
+
+
+{% block head %}
+<h1>List of categories</h1>
+{% endblock %}
+
+
+{% block content %}
+<ul>
+{% if categories %}
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'events:category_detail' category.pk %}">{{category}}</a>
+        </li>
+    {% endfor %}
+{% else %}
+    <li>Sorry, no categories available</li>
+{% endif %}
+</ul>
+{% endblock %}
+
+
+
+
+
+{% comment %}
+<!-- will not be rendered by the template engine -->
+<ul>
+    {% for category in categories %}
+        <li>{{category}}</li>
+    {% empty %}
+    <li>Sorry, no categories available</li>
+    {% endfor %}
+</ul>
+{% endcomment %}

@@ -2,7 +2,7 @@
 
 ## Pastebin
 
-    https://pastes.io/vrcmvukmjd
+    https://etherpad.opendev.org/p/django-training
 
 ## create environment
 
@@ -47,6 +47,7 @@
 
     https://docs.djangoproject.com/en/4.0/ref/models/querysets/#field-lookups
     https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+    https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Admin_site
 
 
 
