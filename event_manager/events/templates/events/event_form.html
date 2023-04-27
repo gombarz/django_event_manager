@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block head%}
+
+{% if object %}
+    <h1>update event {{object}}</h1>
+{% else %}
+    <h1>add new event</h1>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'events:events' %}">back to Event Overview</a><br>
+
+<form method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <div>
+    <input class="btn btn-primary" type="submit" value="Submit form" />
+    </div>
+</form>
+
+{% endblock %}

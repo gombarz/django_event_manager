@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Delete Event: {{object.name}}
+{% endblock %}
+
+{% block head %}
+<h1 class="display-6 fw-bold lh-1">Delete Event: {{object.name}}</h1>
+{% endblock %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>Do you really want to delete this item: {{ object }}?</p>
+        <input type="submit" class="btn btn-primary" value="Yes, please delete">
+    </form>
+
+{% endblock %}

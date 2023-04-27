@@ -49,7 +49,10 @@
     https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
     https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Admin_site
 
+## Thursday
 
+    https://miro.medium.com/v2/resize:fit:1100/format:webp/1*1NgVsYmmLCiwXUy-uE0VLA.jpeg
+    https://docs.djangoproject.com/en/4.2/ref/validators/#built-in-validators
 
 # a little training project
 

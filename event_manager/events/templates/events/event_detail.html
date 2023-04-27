@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+<h1 class="display-6 fw-bold lh-1">{{object.name}}</h1>
+<h3 class="display-6 lh-3">{{object.sub_title}}</h3>
+
+<p>
+at <b>{{object.date}}</b>, created by  {{object.author}}
+in <a href="{% url 'events:category_detail' object.category.pk %}">
+{{object.category}}</a>
+</p>
+
+
+{% if user.is_authenticated and user == object.author or user.is_superuser %}
+<span style="font-size:12px;">
+<a href="{% url 'events:event_update' object.id %}">edit</a> |
+<a href="{% url 'events:event_delete' object.id %}">delete</a>
+</span>
+{% endif %}
+
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="col-lg-8 col-sm-12">
+
+<h3>Description</h3>
+<p>{{object.description}}</p>
+
+<section class="mb-5 mt-5">
+<h3>additional Infos</h3>
+<ul>
+  <li><b>at: {{object.date}}</b></li>
+  <li>group size: {{object.get_min_group_display}}</li>
+</ul>
+</section>
+
+{% comment %}
+{% if object.related_events.exists %}
+<section class="mb-1 mt-5">
+<h3>Related Events</h3>
+<ul>
+  {% for related in object.related_events %}
+    <li><a href="{{related.get_absolute_url}}">{{related.name}}</a></li>
+  {% endfor %}
+</ul>
+</section>
+{% endif %}
+{% endcomment %}
+
+</div>
+</div>
+
+{%endblock%}

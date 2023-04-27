@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.validators import MinLengthValidator
+from django.urls import reverse
+from .validators import datetime_in_past
 
 User = get_user_model()
 
@@ -38,7 +41,9 @@ class Event(models.Model):
         LARGE = 20, "large group"
         UNLIMITED = 0, "no limit"
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, validators=[
+        MinLengthValidator(3, message="Please enter at least 3 chars"),
+    ])
     sub_title = models.CharField(
         max_length=100,
         null=True,
@@ -46,7 +51,7 @@ class Event(models.Model):
         help_text="this is a short summary of the event.")
 
     description = models.TextField(null=True, blank=True)
-    date = models.DateTimeField()
+    date = models.DateTimeField(validators=[datetime_in_past])
     is_active = models.BooleanField(default=True)  # checkbox
     category = models.ForeignKey(
         Category,
@@ -61,5 +66,8 @@ class Event(models.Model):
         related_name="events"
     )
 
+    def get_absolute_url(self):
+        return reverse("events:event_detail", kwargs={"pk": self.pk})
+    
     def __str__(self) -> str:
         return self.name
