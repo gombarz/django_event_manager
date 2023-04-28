@@ -1,9 +1,22 @@
 from pathlib import Path
+import environ
+import ldap
+from django_auth_ldap.config import (
+    LDAPSearch,
+    LDAPGroupQuery,
+    GroupOfNamesType,
+    PosixGroupType,
+)
 
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(BASE_DIR / ".env")
+env = environ.Env(
+    DEBUG=(bool, False),  # cast to boolean, default is False
+)
 
 MESSAGE_TAGS = {
     messages.DEBUG: "alert-secondary",
@@ -13,17 +26,10 @@ MESSAGE_TAGS = {
     messages.ERROR: "alert-danger",
 }
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1#0x!7vh7x#w4s$8s$z9hj_1j5^!5xmt^s3et97mege8zfh*wo'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "example.com"]
-
+# install django-environ and set the .env File
+SECRET_KEY = env("SECRET_KEY")
+DEBUG = env("DEBUG")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 # Application definition
 
@@ -37,6 +43,11 @@ INSTALLED_APPS = [
     "events",
     "crispy_forms",
     "crispy_bootstrap5",
+    "pages",
+    "rest_framework",
+    "rest_framework.authtoken",  # will generate DB table
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -54,7 +65,8 @@ MIDDLEWARE = [
 
 if DEBUG:
     INSTALLED_APPS.extend([
-        "debug_toolbar"
+        "debug_toolbar",
+        "django_extensions",
     ])
 
     MIDDLEWARE.extend([
@@ -85,6 +97,22 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Event Manager API',
+    'DESCRIPTION': 'Django Event manager',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+
+    # OTHER SETTINGS
+}
+
+
 WSGI_APPLICATION = 'event_manager.wsgi.application'
 
 
@@ -98,6 +126,8 @@ DATABASES = {
     }
 }
 
+LOGIN_REDIRECT_URL = '/'  # go there after login
+LOGOUT_REDIRECT_URL = '/' # go there after logout
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -140,3 +170,39 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# LDAP SETTINGS
+AUTH_LDAP_SERVER_URI = 'ldap://192.168.178.40'
+AUTH_LDAP_BIND_DN = 'cn=admin,dc=example,dc=com'
+AUTH_LDAP_BIND_PASSWORD = 'secret_password'
+AUTH_LDAP_USER_SEARCH = LDAPSearch('dc=example,dc=com',ldap.SCOPE_SUBTREE, '(uid=%(user)s)')
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch('dc=example,dc=com',ldap.SCOPE_SUBTREE, '(objectClass=top)')
+AUTH_LDAP_GROUP_TYPE = PosixGroupType(name_attr="cn")
+
+# Populate the Django user from the LDAP directory.
+AUTH_LDAP_REQUIRE_GROUP = "cn=enabled+gidNumber=501,ou=groups,dc=example,dc=com"
+AUTH_LDAP_MIRROR_GROUPS = True
+
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail",
+    "username": "uid",
+    "password": "userPassword",
+}
+
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    "is_active": "cn=active+gidNumber=500,ou=groups,dc=example,dc=com",
+    "is_staff": "cn=staff+gidNumber=503,ou=groups,dc=example,dc=com",
+    "is_superuser": "cn=superuser+gidNumber=502,ou=groups,dc=example,dc=com"
+}
+
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+AUTH_LDAP_FIND_GROUP_PERMS = True
+AUTH_LDAP_CACHE_TIMEOUT = 3600
+
+AUTHENTICATION_BACKENDS = (
+    'django_auth_ldap.backend.LDAPBackend',  # ldap auth
+    'django.contrib.auth.backends.ModelBackend', # standard auth
+)

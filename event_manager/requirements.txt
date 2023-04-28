@@ -6,16 +6,54 @@
 #
 asgiref==3.6.0
     # via django
+attrs==23.1.0
+    # via jsonschema
 crispy-bootstrap5==0.7
     # via -r requirements.in
 django==4.1.3
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
+    #   django-auth-ldap
     #   django-crispy-forms
+    #   djangorestframework
+    #   drf-spectacular
+    #   drf-spectacular-sidecar
+django-auth-ldap==4.3.0
+    # via -r requirements.in
 django-crispy-forms==2.0
     # via
     #   -r requirements.in
     #   crispy-bootstrap5
+django-environ==0.10.0
+    # via -r requirements.in
+djangorestframework==3.14.0
+    # via
+    #   -r requirements.in
+    #   drf-spectacular
+drf-spectacular==0.26.2
+    # via -r requirements.in
+drf-spectacular-sidecar==2023.4.1
+    # via -r requirements.in
+inflection==0.5.1
+    # via drf-spectacular
+jsonschema==4.17.3
+    # via drf-spectacular
+pyasn1==0.5.0
+    # via
+    #   pyasn1-modules
+    #   python-ldap
+pyasn1-modules==0.3.0
+    # via python-ldap
+pyrsistent==0.19.3
+    # via jsonschema
+python-ldap==3.4.3
+    # via django-auth-ldap
+pytz==2023.3
+    # via djangorestframework
+pyyaml==6.0
+    # via drf-spectacular
 sqlparse==0.4.4
     # via django
+uritemplate==4.1.1
+    # via drf-spectacular
